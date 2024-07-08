@@ -39,6 +39,24 @@ char	*lexer_chartostr(t_lexer *lexer)
 	return (str);
 }
 
+t_token_type	get_token(char *token, int len)
+{
+	if (ft_strncmp(token, "<", len) == 0)
+		return (T_REDIR_L);
+	if (ft_strncmp(token, ">", len) == 0)
+		return (T_REDIR_R);
+	if (ft_strncmp(token, "<<", len) == 0)
+		return (T_HEREDOC);
+	if (ft_strncmp(token, ">>", len) == 0)
+		return (T_APPEND);
+	if (ft_strncmp(token, "(", len) == 0)
+		return (T_BRAC_L);
+	if (ft_strncmp(token, ")", len) == 0)
+		return (T_BRAC_R);
+	if (ft_strncmp(token, "|", len) == 0)
+		return (T_PIPE);
+}
+
 void	*ft_realloc(void *ptr, int old, int new)
 {
 	void	*new_ptr;

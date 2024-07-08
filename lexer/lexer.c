@@ -25,23 +25,7 @@ t_lexer	*lexer_init(char *input)
 	return (lexer);
 }
 
-t_token_type	get_token(t_token_type token, int len)
-{
-	if (ft_strncmp(token, "<", len) == 0)
-		return (T_REDIR_L);
-	if (ft_strncmp(token, ">", len) == 0)
-		return (T_REDIR_R);
-	if (ft_strncmp(token, "<<", len) == 0)
-		return (T_HEREDOC);
-	if (ft_strncmp(token, ">>", len) == 0)
-		return (T_APPEND);
-	if (ft_strncmp(token, "(", len) == 0)
-		return (T_BRAC_L);
-	if (ft_strncmp(token, ")", len) == 0)
-		return (T_BRAC_R);
-	if (ft_strncmp(token, "|", len) == 0)
-		return (T_PIPE);
-}
+
 
 /*
 t_token	lexer_gettoken(t_lexer *lexer)
