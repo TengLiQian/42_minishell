@@ -14,7 +14,7 @@
 
 void	lexer_nextchar(t_lexer *lexer)
 {
-	if (lexer->c != '\0' && lexer->index < ft_strlen(lexer->content))
+	if (lexer->c != '\0' && lexer->index < (int)(ft_strlen(lexer->content)))
 	{
 		lexer->index += 1;
 		lexer->c = lexer->content[lexer->index];
@@ -43,6 +43,7 @@ void	*ft_realloc(void *ptr, int old, int new)
 {
 	void	*new_ptr;
 
+	new_ptr = NULL;
 	if (!new_ptr)
 	{
 		if (ptr)

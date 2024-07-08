@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 14:13:56 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/01 23:54:13 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/08 18:45:40 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,14 @@ static int			g_exit_status = 0;
 
 typedef enum e_token_type
 {
-	T_STRING, // "XXX"
+	T_STRING,  // "XXX"
 	T_REDIR_L, // <
 	T_REDIR_R, // >
 	T_HEREDOC, // <<
-	T_APPEND, // >>
-	T_BRAC_L, // (
-	T_BRAC_R, // )
-	T_PIPE, // |
-	T_AND, // &&
-	T_OR, // ||
-	T_OTHERS, // Others
+	T_APPEND,  // >>
+	T_BRAC_L,  // (
+	T_BRAC_R,  // )
+	T_PIPE,    // |
 }					t_token_type;
 
 // token struct
@@ -63,7 +60,7 @@ typedef struct s_lexer
 	char			*content;
 	int				index;
 	char			c;
-}	t_lexer;
+}					t_lexer;
 
 // env struct
 

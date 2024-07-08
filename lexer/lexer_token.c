@@ -41,3 +41,4 @@ void	add_token(t_token **list, t_token *new)
 	last->next = new;
 	new->prev = last;
 }
+	
