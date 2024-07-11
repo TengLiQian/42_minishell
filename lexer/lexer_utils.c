@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 00:42:13 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/02 00:05:09 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/11 22:38:39 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ char	*lexer_chartostr(t_lexer *lexer)
 	str[1] = '\0';
 	return (str);
 }
-
+/*
 t_token_type	get_token(char *token, int len)
 {
+	void	*new_ptr;
+
 	if (ft_strncmp(token, "<", len) == 0)
 		return (T_REDIR_L);
 	if (ft_strncmp(token, ">", len) == 0)
@@ -55,12 +57,11 @@ t_token_type	get_token(char *token, int len)
 		return (T_BRAC_R);
 	if (ft_strncmp(token, "|", len) == 0)
 		return (T_PIPE);
-}
+}*/
 
 void	*ft_realloc(void *ptr, int old, int new)
 {
-	void	*new_ptr;
-
+	void *new_ptr;
 	new_ptr = NULL;
 	if (!new_ptr)
 	{
