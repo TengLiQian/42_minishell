@@ -6,100 +6,85 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:21:34 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/08 18:19:12 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 00:17:55 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_lexer	*lexer_init(char *input)
+int	is_space(char c)
 {
-	t_lexer	*lexer;
-
-	lexer = malloc(sizeof(t_lexer));
-	if (!lexer)
-		return (NULL);
-	lexer->content = input;
-	lexer->index = 0;
-	lexer->c = input[lexer->index];
-	return (lexer);
+	if (!c)
+		return ;
+	while (c == ' ' || c >= 9 && c <= 13)
+		return (1);
 }
 
-
-
-/*
-t_token	lexer_gettoken(t_lexer *lexer)
+t_token_type	get_token(char *token, int len)
 {
-	char	*value;
-	char	*c;
-	int		len;
-
-	while (lexer->c != '\0' && lexer->index < ft_strlen(lexer->content))
-	{
-		if (lexer->c == ' ')
-			lexer_skipspace(lexer);
-	}
-}*/
-// Need to add token to the back
-t_token	*lexer_string(t_lexer *lexer)
-{
-	char	*value;
-	char	*c;
-	int		len;
-
-	lexer_nextchar(lexer);
-	value = malloc(sizeof(char));
-	if (!value)
-		return (NULL);
-	value[0] = '\0';
-	len = 0;
-	while (lexer->c != '"')
-	{
-		c = lexer_chartostr(lexer);
-		if (!c)
-		{
-			free(value);
-			return (NULL);
-		}
-		value = ft_realloc(value, len + 1, len + 2);
-		if (!value)
-		{
-			free(c);
-			return (NULL);
-		}
-		ft_strlcat(value, c, len + 2);
-		len += 1;
-		lexer_nextchar(lexer);
-	}
-	lexer_nextchar(lexer);
-	return (token_init(T_STRING, value));
+	if (ft_strncmp(token, "<", len) == 0)
+		return (T_REDIR_L);
+	else if (ft_strncmp(token, ">", len) == 0)
+		return (T_REDIR_R);
+	else if (ft_strncmp(token, "<<", len) == 0)
+		return (T_HEREDOC);
+	else if (ft_strncmp(token, ">>", len) == 0)
+		return (T_APPEND);
+	else if (ft_strncmp(token, "|", len) == 0)
+		return (T_PIPE);
+	else
+		return (T_STRING);
 }
 
-/*
-int	main(void)
+t_token	*token_init(int type, char *value)
 {
-	t_lexer	*lexer;
 	t_token	*token;
 
-	lexer = lexer_init("This is me");
-	if (!lexer)
-	{
-		printf("Lexer initialization failed\n");
-		return (1);
-	}
-	token = lexer_string(lexer);
-	if (token)
-	{
-		printf("Token type: %d, value: %s\n", token->token_type, token->value);
-		free(token->value);
-		free(token);
-	}
-	else
-	{
-		printf("Token initialization failed\n");
-	}
-	// Clean up lexer if needed
-	// lexer_cleanup(lexer);
-	return (0);
+	token = malloc(sizeof(t_token));
+	token->token_type = type;
+	token->value = value;
+	token->prev = NULL;
+	token->next = NULL;
+	return (token);
 }
-*/
+
+void	add_token(t_token **list, t_token *new)
+{
+	t_token	*last;
+
+	if (!new)
+		return ;
+	else if (!*list)
+	{
+		*list = new;
+		return ;
+	}
+	last = *list;
+	while (last->next)
+		last = last->next;
+	last->next = new;
+	new->prev = last;
+}
+
+t_token *tokenize(t_minishell *shell, char *input)
+{
+	int	i;
+
+	i = 0;
+	if (input[i])
+	{
+		while (is_space(input[i]))
+			i++;
+		if (!input[i])
+			return (NULL);
+	}
+	while (input[i])
+	{
+		while (is_space(input[i]))
+			i++;
+		// Need smth here to split the tokens, identify
+	}
+	// if (lexer_quotes(shell->tokens) == -1 || lexer_syntax(shell->tokens) == -1)
+		// return (NULL);
+	return (shell->tokens);
+}

@@ -6,7 +6,7 @@
 #    By: lteng <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 14:14:28 by lteng             #+#    #+#              #
-#    Updated: 2024/07/01 23:55:55 by lteng            ###   ########.fr        #
+#    Updated: 2024/07/15 00:20:28 by lteng            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,6 @@ SRCS = main.c signals.c \
 	env/get_env.c \
 	lexer/lexer.c \
 	lexer/lexer_free.c \
-	lexer/lexer_token.c \
-	lexer/lexer_utils.c \
 	builtins/main_builtin.c \
 	builtins/ft_env.c \
 	builtins/ft_exit.c \
