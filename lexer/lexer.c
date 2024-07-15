@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:21:34 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 00:17:55 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 12:14:51 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 int	is_space(char c)
 {
-	if (!c)
-		return ;
-	while (c == ' ' || c >= 9 && c <= 13)
+	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
+	return (0);
 }
 
 t_token_type	get_token(char *token, int len)
