@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:21:34 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 12:19:10 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 12:29:38 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,31 @@ void	add_token(t_token **list, t_token *new)
 t_token *tokenize(t_minishell *shell, char *input)
 {
 	int		i;
+	int		j;
 	char	**strings;
 
 	i = 0;
+	j = 0;
+	if (input[i])
+	{
+		while (is_space(input[i]))
+			i++;
+		if (!input[i])
+			return (NULL);
+	}
 	while (input[i])
 	{
 		strings = lexer_split(input);
-		// Need smth here to split the tokens, identify
+		if (strings[j])
+		{
+			shell->tokens = token_init(get_token(strings[j], ft_strlen(strings[j])), strings[j]);
+			j++;
+		}
+		while (strings[j])
+		{
+			add_token(shell->tokens, token_init(get_token(strings[j], ft_strlen(strings[j])), strings[j]));
+			j++;
+		}
 	}
 	// if (lexer_quotes(shell->tokens) == -1 || lexer_syntax(shell->tokens) == -1)
 		// return (NULL);
