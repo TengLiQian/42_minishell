@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 20:17:56 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 12:14:33 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 18:15:44 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	new_prompt(int sig)
 {
 	g_exit_status = sig;
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
