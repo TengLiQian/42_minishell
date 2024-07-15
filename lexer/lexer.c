@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:21:34 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 22:39:43 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 23:00:51 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,14 @@ t_token	*tokenize(char *input)
 	{
 		new_token = token_init(get_token(strings[i], strlen(strings[i])),
 				strings[i]);
-		if (new_token)
-		{
-			if (!head)
-			{
-				head = new_token;
-				tail = new_token;
-			}
-			else
-			{
-				add_token(&tail, new_token);
-				tail = new_token;
-			}
-		}
+		if (!head)
+			head = new_token;
+		else
+			add_token(&tail, new_token);
+		tail = new_token;
 		i++;
 	}
-	lexer_free(strings);
+	// lexer_free(strings);
 	return (head);
 }
 
