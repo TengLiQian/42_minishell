@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 14:13:56 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 12:17:11 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 17:51:08 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,18 @@ typedef struct s_minishell
 
 // lexer
 
+int					lexer_wordlen(char const *s);
+int					lexer_wordcount(char const *s);
+char				**lexer_split(char const *s);
+
+void				*lexer_free(char **strs);
+
 int					is_space(char c);
+
 t_token_type		get_token(char *token, int len);
 t_token				*token_init(int type, char *value);
 void				add_token(t_token **list, t_token *new);
-t_token 			*tokenize(t_minishell *shell, char *input);
-char				**lexer_split(char const *s);
-int					lexer_wordlen(char const *s);
-void				*lexer_free(char **strs);
-int					lexer_wordcount(char const *s);
+t_token				*tokenize(t_minishell *shell, char *input);
 
 // signals
 void				new_prompt(int sig);

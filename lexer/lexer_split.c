@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:45:26 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 12:15:53 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 17:48:03 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,6 @@ int	lexer_wordlen(char const *s)
 		s++;
 	}
 	return (len);
-}
-
-void	*lexer_free(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
-	return (NULL);
 }
 
 int	lexer_wordcount(char const *s)
@@ -59,7 +45,7 @@ int	lexer_wordcount(char const *s)
 
 char	**lexer_split(char const *s)
 {
-	char		**strings;
+	char	**strings;
 	int		i;
 	int		words;
 

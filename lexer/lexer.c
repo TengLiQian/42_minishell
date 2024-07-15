@@ -6,18 +6,11 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:21:34 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 12:29:38 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 17:50:40 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_space(char c)
-{
-	if (c == ' ' || (c >= 9 && c <= 13))
-		return (1);
-	return (0);
-}
 
 t_token_type	get_token(char *token, int len)
 {
@@ -65,7 +58,7 @@ void	add_token(t_token **list, t_token *new)
 	new->prev = last;
 }
 
-t_token *tokenize(t_minishell *shell, char *input)
+t_token	*tokenize(t_minishell *shell, char *input)
 {
 	int		i;
 	int		j;
@@ -85,16 +78,19 @@ t_token *tokenize(t_minishell *shell, char *input)
 		strings = lexer_split(input);
 		if (strings[j])
 		{
-			shell->tokens = token_init(get_token(strings[j], ft_strlen(strings[j])), strings[j]);
+			shell->tokens = token_init(get_token(strings[j],
+						ft_strlen(strings[j])), strings[j]);
 			j++;
 		}
 		while (strings[j])
 		{
-			add_token(shell->tokens, token_init(get_token(strings[j], ft_strlen(strings[j])), strings[j]));
+			add_token(&shell->tokens, token_init(get_token(strings[j],
+						ft_strlen(strings[j])), strings[j]));
 			j++;
 		}
 	}
-	// if (lexer_quotes(shell->tokens) == -1 || lexer_syntax(shell->tokens) == -1)
-		// return (NULL);
+	// if (lexer_quotes(shell->tokens) == -1 || lexer_syntax(shell->tokens) ==
+	//	-1)
+	// return (NULL);
 	return (shell->tokens);
 }

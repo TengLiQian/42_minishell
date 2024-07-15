@@ -6,12 +6,13 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:14:18 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 12:17:26 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 17:48:25 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_minishell	*shell;
@@ -39,17 +40,20 @@ int	main(int argc, char *argv[], char *envp[])
 	clear_history();
 	return (0);
 }
-/*
+*/
+
 int	main(void)
 {
-	int i = 0;
-	char **strings;
+	int		i;
+	char	**strings;
 
+	i = 0;
 	strings = lexer_split("Hello World HAHAHAHA ");
 	while (strings[i])
 	{
 		printf("%s\n", strings[i]);
 		i++;
 	}
+	lexer_free(strings);
 	return (0);
-}*/
+}
