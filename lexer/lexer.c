@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:21:34 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 23:00:51 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 23:45:55 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	*token_init(int type, char *value)
 
 	token = malloc(sizeof(t_token));
 	token->token_type = type;
-	token->value = value;
+	token->value = ft_strdup(value);
 	token->prev = NULL;
 	token->next = NULL;
 	return (token);
@@ -83,7 +83,7 @@ t_token	*tokenize(char *input)
 		tail = new_token;
 		i++;
 	}
-	// lexer_free(strings);
+	lexer_free(strings);
 	return (head);
 }
 

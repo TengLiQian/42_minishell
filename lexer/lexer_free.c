@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 00:39:28 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 22:44:53 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 23:46:46 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_tokens(t_token *tokens)
 	while (current != NULL)
 	{
 		next = current->next;
+		free(current->value);
 		free(current);
 		current = next;
 	}
