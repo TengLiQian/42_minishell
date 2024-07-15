@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 14:13:56 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 18:41:51 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 18:54:39 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static int			g_exit_status = 0;
 
 typedef enum e_token_type
 {
-	T_STRING,  // "XXX"
-	T_REDIR_L, // <
-	T_REDIR_R, // >
-	T_HEREDOC, // <<
-	T_APPEND,  // >>
-	T_PIPE,    // |
+	T_STRING,
+	T_REDIR_L,
+	T_REDIR_R,
+	T_HEREDOC,
+	T_APPEND,
+	T_PIPE,
 }					t_token_type;
 
 // token struct

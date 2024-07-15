@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:21:34 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 18:40:00 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 18:57:55 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,22 @@ void	add_token(t_token **list, t_token *new)
 
 t_token	*tokenize(char *input)
 {
-	char **strings = lexer_split(input);
+	t_token	*head;
+	t_token	*tail;
+	char	**strings;
+	int		i;
+	t_token	*new_token;
+
+	head = NULL;
+	tail = NULL;
+	strings = lexer_split(input);
 	if (!strings)
 		return (NULL);
-
-	t_token *head = NULL;
-	t_token *tail = NULL; // Track the tail of the list
-
-	for (int j = 0; strings[j] != NULL; j++)
+	i = 0;
+	while (strings[i])
 	{
-		t_token *new_token = token_init(get_token(strings[j],
-					strlen(strings[j])), strings[j]);
+		new_token = token_init(get_token(strings[i], strlen(strings[i])),
+				strings[i]);
 		if (new_token)
 		{
 			if (!head)
@@ -80,14 +85,11 @@ t_token	*tokenize(char *input)
 			}
 			else
 			{
-				add_token(&tail, new_token); // Append new token to the list
-				tail = new_token;            // Update tail to the new token
+				add_token(&tail, new_token);
+				tail = new_token;
 			}
 		}
+		i++;
 	}
-
-	// Free the strings array if it was dynamically allocated
-	// free_strings_array(strings);
-
-	return (head); // Return the head of the list of tokens
+	return (head);
 }

@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:14:18 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 18:43:34 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 18:48:35 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		add_history(shell->input);
 		shell->tokens = tokenize(shell->input);
-		if (!shell->tokens)
-			return (-1);
-		while (shell->tokens)
-		{
-			printf("Value: %s\n", shell->tokens->value);
-			printf("Token Type: %u\n", shell->tokens->token_type);
-			shell->tokens = shell->tokens->next;
-		}
 		main_builtin(shell->input, shell);
 	}
 	free(shell->input);
@@ -65,3 +57,14 @@ int	main(void)
 	lexer_free(strings);
 	return (0);
 }*/
+/*
+while (shell->tokens)
+{
+	printf("Value: %s\n", shell->tokens->value);
+	printf("Token Type: %u\n", shell->tokens->token_type);
+	shell->tokens = shell->tokens->next;
+}
+*/
+/*
+valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
+*/
