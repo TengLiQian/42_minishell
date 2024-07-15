@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 14:13:56 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 18:54:39 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 22:50:36 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,14 @@ int					lexer_wordcount(char const *s);
 char				**lexer_split(char const *s);
 
 void				*lexer_free(char **strs);
+void				free_tokens(t_token *tokens);
 
 int					is_space(char c);
 
 t_token_type		get_token(char *token, int len);
 t_token				*token_init(int type, char *value);
 void				add_token(t_token **list, t_token *new);
+void				join_token(t_token *head, t_token *tail, char **strings);
 t_token				*tokenize(char *input);
 
 // signals
@@ -95,4 +97,6 @@ void				ft_env(t_minishell *shell);
 void				ft_exit(t_minishell *shell);
 void				ft_pwd(char *name, t_minishell *shell);
 
+// massive_free
+void				massive_free(t_minishell *shell);
 #endif

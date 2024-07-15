@@ -6,11 +6,19 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:14:18 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/15 18:48:35 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/15 22:50:03 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	massive_free(t_minishell *shell)
+{
+	free(shell->input);
+	free_env(shell);
+	free_tokens(shell->tokens);
+	free(shell);
+}
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -36,7 +44,7 @@ int	main(int argc, char *argv[], char *envp[])
 		shell->tokens = tokenize(shell->input);
 		main_builtin(shell->input, shell);
 	}
-	free(shell->input);
+	massive_free(shell);
 	clear_history();
 	return (0);
 }
