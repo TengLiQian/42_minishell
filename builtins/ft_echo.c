@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_builtin.c                                     :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 19:00:20 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/22 20:27:36 by lteng            ###   ########.fr       */
+/*   Created: 2024/07/22 20:22:07 by lteng             #+#    #+#             */
+/*   Updated: 2024/07/22 21:04:36 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	main_builtin(char *str, t_minishell *shell)
+void	ft_echo(t_minishell *shell)
 {
-	if (ft_strncmp(str, "env", 3) == 0)
-		ft_env(shell);
-	if (ft_strncmp(str, "exit", 3) == 0)
-		ft_exit(shell);
-	if (ft_strncmp(str, "pwd", 3) == 0)
-		ft_pwd("_", shell);
-	if (ft_strncmp(str, "echo", 4) == 0)
-		ft_echo(shell);
+	t_token	*current_token;
+	int		i;
+
+	i = 0;
+	current_token = shell->tokens->next;
+	if (!current_token)
+	{
+		printf("\n");
+		return ;
+	}
+	if (ft_strncmp(current_token->value, "-n", 2) == 0)
+	{
+		current_token = current_token->next;
+		i = 1;
+	}
+	while (current_token)
+	{
+		printf("%s ", current_token->value);
+		current_token = current_token->next;
+	}
+	if (i == 0)
+		printf("\n");
 }

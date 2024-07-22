@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 14:13:56 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/22 20:19:01 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/22 21:09:16 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void				main_builtin(char *str, t_minishell *shell);
 void				ft_env(t_minishell *shell);
 void				ft_exit(t_minishell *shell);
 void				ft_pwd(char *name, t_minishell *shell);
+void				ft_echo(t_minishell *shell);
 
 // massive_free
 void				massive_free(t_minishell *shell);

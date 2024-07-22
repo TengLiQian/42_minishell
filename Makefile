@@ -6,7 +6,7 @@
 #    By: lteng <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/23 14:14:28 by lteng             #+#    #+#              #
-#    Updated: 2024/07/15 17:50:26 by lteng            ###   ########.fr        #
+#    Updated: 2024/07/22 21:01:46 by lteng            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS = main.c signals.c \
 	builtins/main_builtin.c \
 	builtins/ft_env.c \
 	builtins/ft_exit.c \
-	builtins/ft_pwd.c
+	builtins/ft_pwd.c \
+	builtins/ft_echo.c
 
 OBJS = $(SRCS:.c=.o)
 CC = cc -g

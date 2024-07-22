@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:50:29 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/16 20:53:53 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/22 20:55:47 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_space(char c)
 	return (0);
 }
 
-char *extract_content(char *string)
+char	*extract_content(char *string)
 {
 	int		len;
 	char	*content;
@@ -29,15 +29,15 @@ char *extract_content(char *string)
 	start = ft_strchr(string, '"');
 	end = ft_strrchr(string, '"');
 	if (!start || !end || start == end)
-		return NULL;
+		return (NULL);
 	start++;
 	len = end - start;
 	content = malloc(len + 1);
 	if (!content)
-		return NULL;
+		return (NULL);
 	ft_strlcpy(content, start, len + 1);
 	content[len] = '\0';
-	return content;
+	return (content);
 }
 
 int	unclosed_quotes_s(char *string)
@@ -81,4 +81,3 @@ int	unclosed_quotes_ss(char **strings)
 	}
 	return (0);
 }
-
