@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 14:13:56 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/16 20:52:26 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/22 20:19:01 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define EMPTY 0
 # define COMMAND 1
 # define ARGUMENT 2
-#
 
 // Global Variable
 static int			g_exit_status = 0;

@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:14:18 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/16 20:39:49 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/22 20:20:27 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,6 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		add_history(shell->input);
 		shell->tokens = tokenize(shell->input);
-		while (shell->tokens)
-		{
-			printf("Value: %s\n", shell->tokens->value);
-			printf("Token Type: %u\n", shell->tokens->token_type);
-			shell->tokens = shell->tokens->next;
-		}
 		main_builtin(shell->input, shell);
 	}
 	massive_free(shell);
