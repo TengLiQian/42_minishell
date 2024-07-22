@@ -6,7 +6,7 @@
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 20:22:07 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/22 21:04:36 by lteng            ###   ########.fr       */
+/*   Updated: 2024/07/22 23:12:31 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_echo(t_minishell *shell)
 		printf("\n");
 		return ;
 	}
-	if (ft_strncmp(current_token->value, "-n", 2) == 0)
+	while (ft_strncmp(current_token->value, "-n", 2) == 0)
 	{
 		current_token = current_token->next;
 		i = 1;
