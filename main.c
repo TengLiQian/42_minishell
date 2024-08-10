@@ -5,71 +5,109 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lteng <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/23 15:14:18 by lteng             #+#    #+#             */
-/*   Updated: 2024/07/22 20:20:27 by lteng            ###   ########.fr       */
+/*   Created: 2024/07/22 22:28:49 by jolai             #+#    #+#             */
+/*   Updated: 2024/08/07 19:16:20 by lteng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	massive_free(t_minishell *shell)
-{
-	free(shell->input);
-	free_env(shell);
-	free_tokens(shell->tokens);
-	free(shell);
-}
+int		g_sig_num = 0;
 
-int	main(int argc, char *argv[], char *envp[])
+t_shell	*reset_shell(t_shell *shell)
 {
-	t_minishell	*shell;
+	t_shell	*ptr;
 
-	(void)argc;
-	(void)argv;
-	signal(SIGINT, new_prompt);
-	signal(SIGQUIT, SIG_IGN);
-	shell = malloc(sizeof(t_minishell));
-	if (!shell)
-		return (-1);
-	env_init(envp, shell);
-	while (1)
+	free_arg_list(shell->args);
+	shell->args = NULL;
+	if (shell->next)
 	{
-		shell->input = readline(BC "Minishell: Enter Command >> " RST);
-		if (!shell->input)
+		ptr = shell;
+		while (ptr)
 		{
-			printf("exit\n");
-			break ;
+			shell->exit_status = ptr->exit_status;
+			ptr = ptr->next;
 		}
-		add_history(shell->input);
-		shell->tokens = tokenize(shell->input);
-		main_builtin(shell->input, shell);
+		free_shell(shell->next);
+		shell->next = NULL;
 	}
-	massive_free(shell);
-	clear_history();
-	return (0);
-}
-
-/*
-int	main(void)
-{
-	int		i;
-	char	**strings;
-
-	i = 0;
-	strings = lexer_split("Hello World HAHAHAHA ");
-	while (strings[i])
+	if (STDIN_FILENO != shell->stdio[0])
+		dup2(shell->stdio[0], STDIN_FILENO);
+	if (STDOUT_FILENO != shell->stdio[1])
+		dup2(shell->stdio[1], STDOUT_FILENO);
+	if (shell->heredoc_fd != 0)
 	{
-		printf("%s\n", strings[i]);
-		i++;
+		close(shell->heredoc_fd);
+		shell->heredoc_fd = 0;
 	}
-	lexer_free(strings);
-	return (0);
-}*/
-/*
-while (shell->tokens)
-{
-	printf("Value: %s\n", shell->tokens->value);
-	printf("Token Type: %u\n", shell->tokens->token_type);
-	shell->tokens = shell->tokens->next;
+	return (shell);
 }
-*/
+
+t_shell	*input_processing(char *input, t_shell *shell)
+{
+	char	**arr;
+
+	add_history(input);
+	arr = arg_split(input);
+	shell = make_arg_list(arr, shell);
+	free_2d_c(arr);
+	return (shell);
+}
+
+t_shell	*input_prompt(t_shell *shell)
+{
+	char	*input;
+	int		status;
+
+	input = NULL;
+	while (!input)
+	{
+		input = readline("\001\033[0;36m\002MiniJell\001\033[0m\002>");
+		if (g_sig_num != 0)
+			shell->exit_status = g_sig_num;
+		status = shell->exit_status;
+		if (!input)
+			free_shell(shell);
+		if (!input)
+			exit(status);
+		if (ft_strlen(input) == 0)
+		{
+			free(input);
+			input = NULL;
+		}
+	}
+	g_sig_num = 0;
+	shell = input_processing(input, shell);
+	free(input);
+	input = NULL;
+	return (shell);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_shell	*envp;
+	char	*prompt;
+	int		status;
+
+	envp = new_shell_node(STDIN_FILENO, STDOUT_FILENO);
+	envp->env_list = initialize_env(env);
+	prompt = NULL;
+	while (ac && av)
+	{
+		main_sig_handler();
+		status = envp->exit_status;
+		envp = input_prompt(envp);
+		if (!envp)
+			break ;
+		if (!(envp->args) || envp->exit_status == 2)
+			continue ;
+		pipe_separator(envp->args, envp);
+		heredoc_runner(envp);
+		if (envp->args && envp->next && g_sig_num == 0)
+			process_handler(envp);
+		else if (g_sig_num == 0)
+			exec_handler(envp, 1);
+		envp = reset_shell(envp);
+	}
+	return (status);
+}

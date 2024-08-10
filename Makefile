@@ -3,54 +3,93 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lteng <marvin@42.fr>                       +#+  +:+       +#+         #
+#    By: jolai <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/23 14:14:28 by lteng             #+#    #+#              #
-#    Updated: 2024/07/22 21:01:46 by lteng            ###   ########.fr        #
+#    Created: 2024/07/18 17:26:02 by jolai             #+#    #+#              #
+#    Updated: 2024/08/07 17:05:33 by jolai            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.c signals.c \
-	env/env.c \
-	env/get_env.c \
-	lexer/lexer.c \
-	lexer/lexer_free.c \
-	lexer/lexer_split.c \
-	lexer/lexer_utils.c \
-	builtins/main_builtin.c \
-	builtins/ft_env.c \
-	builtins/ft_exit.c \
-	builtins/ft_pwd.c \
-	builtins/ft_echo.c
+NAME		=	minishell
+LIBFT   	=	./full_libft/
+SRCDIR  	=	./srcs/
+PARSE_DIR	=	$(addprefix $(SRCDIR), parser/)
+ENV_DIR		=	$(addprefix $(SRCDIR), env/)
+PIPE_DIR	=	$(addprefix $(SRCDIR), pipes/)
+EXEC_DIR	=	$(addprefix $(SRCDIR), exec/)
+BUILTIN_DIR	=	$(addprefix $(SRCDIR), builtins/)
+ERROR_DIR	=	$(addprefix $(SRCDIR), error/)
+SIGNAL_DIR	=	$(addprefix $(SRCDIR), signals/)
+LIBFT_A		=	$(addprefix $(LIBFT), libft.a)
+INCLUDE 	=	includes
 
-OBJS = $(SRCS:.c=.o)
-CC = cc -g
-CFLAGS = -Wall -Werror -Wextra
-LFLAGS = -lreadline
-NAME = minishell
-RM = rm -rf
-all: $(NAME)
+PARSE_SRCS	= 	parser_splitting.c parser_tokenising.c parser_list_utils.c \
+				parser_processing.c parser_expansion.c syntax_checks.c
 
-LIBFT_PATH = ./libft
-LIBFT = $(LIBFT_PATH)/libft.a
+PARSER_FILES= 	$(addprefix $(PARSE_DIR), $(PARSE_SRCS))
 
-$(LIBFT):
-	make -C $(LIBFT_PATH) all
+ENV_SRCS	= 	env_utils.c env_initial.c env_val_tools.c env_cpy.c sort_env.c
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+ENV_FILES	=	$(addprefix $(ENV_DIR), $(ENV_SRCS))
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L$(LIBFT_PATH) -lft $(LFLAGS)
+PIPE_SRCS	= 	pipes.c shell_list_utils.c
 
-clean:
-	$(RM) $(OBJS)
-	make clean -C $(LIBFT_PATH)
+PIPE_FILES	= 	$(addprefix $(PIPE_DIR), $(PIPE_SRCS))
 
-fclean: clean
-	$(RM) $(NAME)
-	make fclean -C $(LIBFT_PATH)
+EXEC_SRCS	= 	cmd_utils.c cmd_child_utils.c redir_utils.c \
+				heredoc.c heredoc_child.c array_conversions.c
 
-re: fclean all
+EXEC_FILES	= 	$(addprefix $(EXEC_DIR), $(EXEC_SRCS))
 
-.PHONY: all clean fclean re
+BUILTIN_SRCS	=	ft_builtins.c ft_env.c ft_exit.c ft_pwd.c ft_echo.c ft_cd.c \
+					ft_unset.c ft_export.c
+
+BUILTIN_FILES	=	$(addprefix $(BUILTIN_DIR), $(BUILTIN_SRCS))
+
+ERROR_SRCS	=	test_utils.c
+
+ERROR_FILES	= 	$(addprefix $(ERROR_DIR), $(ERROR_SRCS))
+
+SIGNAL_SRCS =	signals.c
+
+SIGNAL_FILES= 	$(addprefix $(SIGNAL_DIR), $(SIGNAL_SRCS))
+
+SRCS		=	main.c $(PARSER_FILES) $(ENV_FILES) $(PIPE_FILES) \
+				$(EXEC_FILES) $(BUILTIN_FILES) $(ERROR_FILES) $(SIGNAL_FILES)
+
+OBJS		=	${SRCS:.c=.o}
+
+CC			= cc
+RM			= rm -f
+CFLAGS		= -Wall -Wextra -Werror -I$(INCLUDE) -g
+
+all:		 	${NAME}
+
+$(NAME):		${OBJS} ${LIBFT_A}
+				@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -lft -lreadline -o $(NAME)
+				@echo "Compiled into executable \033[0;32mminishell\033[0m"
+
+%.o:			%.c
+				@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+
+$(LIBFT_A):
+				@$(MAKE) -s -C $(LIBFT)
+				@echo "Compiled $(LIBFT_A)"
+
+objclean:
+				@$(RM) $(OBJS)
+				@echo "Removed object files"
+
+clean:			objclean
+				@$(MAKE) clean -s -C $(LIBFT)
+				@echo "Cleaned libft"
+
+fclean:			clean
+				@$(MAKE) fclean -s -C $(LIBFT)
+				@echo "Full cleaned libft"
+				@$(RM) $(NAME)
+				@echo "Removed executable"
+
+re:				fclean all
+
+.PHONY:			all clean fclean re objclean bonus
